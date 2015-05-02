@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terrain
+  - Near BG
+  - Near FG
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Invisible Walls
   - 
   - 
   - 
@@ -38,6 +42,30 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: FG
+    uniqueID: 4011686577
+    locked: 0
+  - name: TerrainDeco
+    uniqueID: 3203834623
+    locked: 0
+  - name: Terrain
+    uniqueID: 3133766645
+    locked: 0
+  - name: Player
+    uniqueID: 2189569253
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Enemy
+    uniqueID: 369509473
+    locked: 0
+  - name: Near
+    uniqueID: 3349430957
+    locked: 0
+  - name: Middle
+    uniqueID: 2774855797
+    locked: 0
+  - name: Far
+    uniqueID: 2181167383
     locked: 0
