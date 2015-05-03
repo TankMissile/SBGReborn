@@ -75,16 +75,16 @@ public class Player : Entity {
 	
 	void getHorizontalVelocity(float accel, float decel){
 		if(Input.GetAxis("Horizontal") < 0 && rb.velocity.x > maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "left" key & not at max speed
-			rb.velocity += Vector2.right * -accel;
+			rb.velocity += Vector2.right * -accel * Time.deltaTime;
 		}
 		else if(Input.GetAxis("Horizontal") > 0 && rb.velocity.x < maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "right" key & not at max speed
-			rb.velocity += Vector2.right * accel;
+			rb.velocity += Vector2.right * accel * Time.deltaTime;
 		}
-		else if(rb.velocity.x < -groundDecel) {
-			rb.velocity += Vector2.right * decel;
+		else if(rb.velocity.x < -groundDecel * Time.deltaTime) {
+			rb.velocity += Vector2.right * decel * Time.deltaTime;
 		}
-		else if(rb.velocity.x > groundDecel) {
-			rb.velocity += Vector2.right * -decel;
+		else if(rb.velocity.x > groundDecel * Time.deltaTime) {
+			rb.velocity += Vector2.right * -decel * Time.deltaTime;
 		}
 		else {
 			rb.velocity = new Vector2(0, rb.velocity.y);
@@ -92,21 +92,21 @@ public class Player : Entity {
 		
 		if(!crouching){
 			if(rb.velocity.x < -maxSpeed){
-				rb.velocity += new Vector2(decel, 0);
+				rb.velocity += new Vector2(decel * Time.deltaTime, 0);
 				if (rb.velocity.x > -maxSpeed) rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
 			}
 			else if (rb.velocity.x > maxSpeed){
-				rb.velocity += new Vector2(-decel, 0);
+				rb.velocity += new Vector2(-decel * Time.deltaTime, 0);
 				if (rb.velocity.x > maxSpeed) rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
 			}
 		}
 		else {
 			if(rb.velocity.x < -maxSpeed/2){
-				rb.velocity += new Vector2(decel, 0);
+				rb.velocity += new Vector2(decel * Time.deltaTime, 0);
 				if (rb.velocity.x > -maxSpeed/2) rb.velocity = new Vector2(-maxSpeed/2, rb.velocity.y);
 			}
 			else if (rb.velocity.x > maxSpeed/2){
-				rb.velocity += new Vector2(-decel, 0);
+				rb.velocity += new Vector2(-decel * Time.deltaTime, 0);
 				if (rb.velocity.x > maxSpeed/2) rb.velocity = new Vector2(maxSpeed/2, rb.velocity.y);
 			}
 		}

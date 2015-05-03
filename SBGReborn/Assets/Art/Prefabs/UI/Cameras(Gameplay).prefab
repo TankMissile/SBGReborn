@@ -117,7 +117,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 185942}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .49000001, y: 6.82999992, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 434580}
@@ -347,8 +347,8 @@ MonoBehaviour:
   angledOrthoCamera: {fileID: 2011684}
   horizOrthoCamera: {fileID: 2045516}
   cState: 0
-  speedModifier: 1
-  minZoom: 100
+  speedModifier: 30
+  minZoom: 90
   maxZoom: 30
   currentZoom: 55
 --- !u!124 &12481614

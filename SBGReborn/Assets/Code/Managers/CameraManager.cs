@@ -8,7 +8,7 @@ public class CameraManager : MonoBehaviour {
 	public enum CameraState { PERSPECTIVE, ANGLEDORTHO, HORIZORTHO };
 	public CameraState cState = CameraState.PERSPECTIVE;
 	
-	public float speedModifier = 1;
+	public float speedModifier = 30;
 	
 	public float minZoom = 100, maxZoom = 30, currentZoom = 55;
 	
@@ -48,6 +48,6 @@ public class CameraManager : MonoBehaviour {
 			horizOrthoCamera.orthographicSize = currentZoom/10;
 		}
 		
-		transform.position = Vector2.MoveTowards(transform.position, GameManager.getPlayer().transform.position, Vector3.Distance(transform.position, GameManager.getPlayer().transform.position) * speedModifier/40);
+		transform.position = Vector2.MoveTowards(transform.position, GameManager.getPlayer().transform.position, Vector3.Distance(transform.position, GameManager.getPlayer().transform.position) /speedModifier);
 	}
 }
