@@ -5,9 +5,11 @@ public class Player : Entity {
 
 	public float groundAccel = .5f;
 	public float groundDecel = .5f;
-	public float airAccel = .1f;
+	public float airAccel = .25f;
+	public float airDecel = 0f;
 
-	public float jumpSpeed = 5f;
+	public float jumpSpeed = 7f;
+	public float superJumpSpeed = 11f;
 	public float airdropSpeed = 10f;
 	
 	public bool canJump = true;
@@ -21,10 +23,13 @@ public class Player : Entity {
 	// Use this for initialization
 	new void Start () {
 		base.Start();
+		
+		GameManager.setPlayer(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	
 	
 		if(Input.GetButtonDown("Crouch") && !crouching){
 			setCrouch(true);
@@ -35,47 +40,75 @@ public class Player : Entity {
 	
 		switch(mstate){
 		case MoveState.GROUND:
-			//rb.velocity = new Vector2(Input.GetAxis("Horizontal") * maxSpeed, rb.velocity.y, 0);
-			if(Input.GetAxis("Horizontal") < 0 && rb.velocity.x > maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "left" key & not at max speed
-				rb.velocity += Vector2.right * -groundAccel;
-			}
-			else if(Input.GetAxis("Horizontal") > 0 && rb.velocity.x < maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "right" key & not at max speed
-				rb.velocity += Vector2.right * groundAccel;
-			}
-			else if(rb.velocity.x < -groundDecel) {
-				rb.velocity += Vector2.right * groundDecel;
-			}
-			else if(rb.velocity.x > groundDecel) {
-				rb.velocity += Vector2.right * -groundDecel;
-			}
-			else {
-				rb.velocity = new Vector2(0, rb.velocity.y);
-			}
-			
-			if(rb.velocity.x < -maxSpeed){
-				rb.velocity += new Vector2(groundDecel, 0);
-				if (rb.velocity.x > -maxSpeed) rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
-			}
-			else if (rb.velocity.x > maxSpeed){
-				rb.velocity += new Vector2(-groundDecel, 0);
-				if (rb.velocity.x > maxSpeed) rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-			}
+			getHorizontalVelocity(groundAccel, groundDecel);
 			
 			if(canJump && Input.GetButtonDown ("Jump")){
-				airborne = true;
-				rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				mstate = MoveState.AIRBORNE;
+				if(!crouching){
+					rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				}
+				else {
+					setCrouch(false);
+					rb.velocity = new Vector2(rb.velocity.x, superJumpSpeed);
+					canDoubleJump = false;
+				}
 			}
 			break;
 		case MoveState.AIRBORNE:
+			getHorizontalVelocity(airAccel, airDecel);
+		
 			if(crouching && Input.GetButtonDown("Jump")){
 				mstate = MoveState.AIRDROP;
-				
+				rb.velocity = new Vector2(0, -airdropSpeed);
+				canDoubleJump = false;
 			}
 			else if(canDoubleJump && Input.GetButtonDown ("Jump")){
-				rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				if(Input.GetAxis("Horizontal") == 0)
+					rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				else
+					rb.velocity = new Vector2(Input.GetAxis("Horizontal") * maxSpeed, jumpSpeed);
 				canDoubleJump = false;
 			}
 			break;
+		}
+	}
+	
+	void getHorizontalVelocity(float accel, float decel){
+		if(Input.GetAxis("Horizontal") < 0 && rb.velocity.x > maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "left" key & not at max speed
+			rb.velocity += Vector2.right * -accel;
+		}
+		else if(Input.GetAxis("Horizontal") > 0 && rb.velocity.x < maxSpeed * Input.GetAxis ("Horizontal")){ //pressing "right" key & not at max speed
+			rb.velocity += Vector2.right * accel;
+		}
+		else if(rb.velocity.x < -groundDecel) {
+			rb.velocity += Vector2.right * decel;
+		}
+		else if(rb.velocity.x > groundDecel) {
+			rb.velocity += Vector2.right * -decel;
+		}
+		else {
+			rb.velocity = new Vector2(0, rb.velocity.y);
+		}
+		
+		if(!crouching){
+			if(rb.velocity.x < -maxSpeed){
+				rb.velocity += new Vector2(decel, 0);
+				if (rb.velocity.x > -maxSpeed) rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+			}
+			else if (rb.velocity.x > maxSpeed){
+				rb.velocity += new Vector2(-decel, 0);
+				if (rb.velocity.x > maxSpeed) rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+			}
+		}
+		else {
+			if(rb.velocity.x < -maxSpeed/2){
+				rb.velocity += new Vector2(decel, 0);
+				if (rb.velocity.x > -maxSpeed/2) rb.velocity = new Vector2(-maxSpeed/2, rb.velocity.y);
+			}
+			else if (rb.velocity.x > maxSpeed/2){
+				rb.velocity += new Vector2(-decel, 0);
+				if (rb.velocity.x > maxSpeed/2) rb.velocity = new Vector2(maxSpeed/2, rb.velocity.y);
+			}
 		}
 	}
 	
@@ -92,21 +125,27 @@ public class Player : Entity {
 		}
 	}
 	
-	void OnCollisionEnter2D(Collision2D coll){
-		if(mstate != MoveState.GROUND ){//&& coll.contacts[0].point.y >= this.transform.position.y + this.transform.localScale.y/2 - .1){
-			Debug.Log ("Hit ground");
+	new protected void OnCollisionEnter2D(Collision2D coll){
+		base.OnCollisionEnter2D(coll);
+	
+		if(mstate != MoveState.GROUND && coll.gameObject.tag.Equals ("Terrain")){
+			//Debug.Log ("Hit ground");
 			mstate = MoveState.GROUND;
+			canDoubleJump = true;
 		}
-		else if(mstate == MoveState.AIRBORNE //freefalling
-				&& coll.contacts[0].point.x >= this.transform.position.x + this.transform.localScale.x/2 - .05 //point is on the rightmost edge of SBG
-				|| coll.contacts[0].point.x <= this.transform.position.x - this.transform.localScale.x/2 + .05){ //point is on the leftmost edge of SBG
-			Debug.Log ("Climbing Wall");
-			mstate = MoveState.WALLCLIMB;
+		
+	}
+	new protected void OnCollisionExit2D(Collision2D coll){
+		base.OnCollisionExit2D(coll);
+		if(collisionCount == 0){
+			mstate = MoveState.AIRBORNE;
+			if(crouching)
+				rb.velocity = new Vector2(0, -jumpSpeed/2);
 		}
-		canDoubleJump = true;
 	}
 	
-	void OnTriggerEnter2D(Collider2D coll){
+	protected void OnTriggerEnter2D(Collider2D coll){
+		
 		if(coll.gameObject.tag.Equals("GrabbableSurface") && mstate != MoveState.GROUND) mstate = MoveState.WALLCLIMB;
 	}
 }

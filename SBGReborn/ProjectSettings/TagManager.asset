@@ -8,6 +8,7 @@ TagManager:
   - Near BG
   - Near FG
   - Enemy
+  - InvisibleWall
   layers:
   - Default
   - TransparentFX
