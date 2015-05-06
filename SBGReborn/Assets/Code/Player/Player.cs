@@ -31,7 +31,7 @@ public class Player : Entity
 	public LayerMask whatIsWall;
 	
 	//Determine how to handle movement
-	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, IMMOBILE } ;
+	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, IMMOBILE };
 	public MoveState mstate = MoveState.GROUND;
 
 	// Use this for initialization
@@ -69,7 +69,7 @@ public class Player : Entity
 		} else if (walled && !grounded) {
 			if(rb.velocity.y > 0 && mstate != MoveState.WALLCLIMB){
 				if(rb.velocity.y < jumpSpeed)
-					rb.velocity = new Vector2(0, jumpSpeed);
+					rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
 			}
 			mstate = MoveState.WALLCLIMB;
 			canDoubleJump = false;
