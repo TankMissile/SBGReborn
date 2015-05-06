@@ -12,6 +12,7 @@ public class Player : Entity
 	public float jumpSpeed = 13f;
 	public float superJumpSpeed = 11f;
 	public float airdropSpeed = 10f;
+	public float slideFallSpeed = 10f;
 	
 	public bool canDoubleJump = true;
 	bool crouching = false;
@@ -63,10 +64,16 @@ public class Player : Entity
 		walled = Physics2D.OverlapArea (transform.position + wallBoxCorners, transform.position - wallBoxCorners, whatIsWall);
 		
 		
-		if (grounded) {
+		if (grounded) { //if on ground, enter grounded state
 			mstate = MoveState.GROUND;
 			canDoubleJump = true;
-		} else if (walled && !grounded) {
+		} 
+		else if(crouching && !grounded && mstate == MoveState.GROUND){ //if ran off a ledge while crouching, slide down the wall
+			flip ();
+			rb.velocity = -Vector2.up * maxSpeed/2 + Vector2.right;
+			mstate = MoveState.WALLCLIMB;
+		}
+		else if (walled && !grounded) { //if touching a wall and not on the ground, enter wallslide state
 			if(rb.velocity.y > 0 && mstate != MoveState.WALLCLIMB){
 				if(rb.velocity.y < jumpSpeed)
 					rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
@@ -74,17 +81,22 @@ public class Player : Entity
 			mstate = MoveState.WALLCLIMB;
 			canDoubleJump = false;
 		}
-		else if(mstate == MoveState.WALLCLIMB && !walled && rb.velocity.y > 0){
+		else if(mstate == MoveState.WALLCLIMB && !walled && rb.velocity.y > 0){ //If wallsliding and ran off the top of the wall, run on top of it
+			float modifier = Mathf.Abs (Input.GetAxis("Horizontal"));
 			if(facingRight){
-				rb.velocity = new Vector3(maxSpeed, 0f);
+				if(!Input.GetButton("Crouch"))
+					rb.velocity = new Vector3(maxSpeed * modifier, jumpSpeed * (1-modifier/2));
+				else rb.velocity = new Vector3(maxSpeed * modifier, jumpSpeed * (1-modifier) / 2);
 				mstate = MoveState.AIRBORNE;
 			}
 			else{
-				rb.velocity = new Vector3(-maxSpeed, 0f);
+				if(!Input.GetButton ("Crouch"))
+					rb.velocity = new Vector3(-maxSpeed * modifier, jumpSpeed * (1-modifier/2));
+				else rb.velocity = new Vector3(-maxSpeed * modifier, jumpSpeed * (1-modifier) / 2);
 				mstate = MoveState.AIRBORNE;
 			}
 		}
-		else if( !grounded && mstate != MoveState.AIRDROP){
+		else if( !grounded && mstate != MoveState.AIRDROP){ //if airborne and not using air drop, enter airborne state
 			mstate = MoveState.AIRBORNE;
 		}
     
@@ -133,6 +145,14 @@ public class Player : Entity
 					mstate = MoveState.AIRBORNE;
 				}
 				jump = false;
+			}
+			
+			
+			if(!crouching && rb.velocity.y < -slideFallSpeed){
+				rb.velocity = new Vector2(rb.velocity.x, -slideFallSpeed);
+			}
+			else if(crouching && rb.velocity.y < -slideFallSpeed/2){
+				rb.velocity = new Vector2(rb.velocity.x, -slideFallSpeed/2);
 			}
 			break;
 		}
