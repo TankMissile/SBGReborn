@@ -9,8 +9,12 @@ public class EnemyEntity : Entity {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+	
+	
+	new void OnCollisionEnter2D(Collision2D coll){
+		base.OnCollisionEnter2D(coll);
+		if(coll.gameObject.tag.Equals ("Player")){
+			coll.gameObject.SendMessage("takeDamage", this.impactDamage);
+		}
 	}
 }

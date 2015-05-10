@@ -158,6 +158,11 @@ public class Player : Entity
 		}
 	}
 	
+	new void takeDamage(int dmg){
+		base.takeDamage(dmg);
+		rb.velocity = new Vector2(rb.velocity.normalized.x * -5, 5);
+	}
+	
 	void getHorizontalVelocity (float accel, float decel)
 	{
 		float hmove = Input.GetAxis ("Horizontal");
