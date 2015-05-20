@@ -2999,6 +2999,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 11404046, guid: 288975e92481b654282a763f889f0a2a, type: 2}
+      propertyPath: maxSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11404046, guid: 288975e92481b654282a763f889f0a2a, type: 2}
+      propertyPath: airDecel
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 288975e92481b654282a763f889f0a2a, type: 2}
   m_IsPrefabParent: 0
@@ -22374,6 +22382,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8292066, guid: 872085be88b33254382fc2b3ee2534c3, type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8cab90f221d0e984b84d22f38a63c908, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 872085be88b33254382fc2b3ee2534c3, type: 2}
   m_IsPrefabParent: 0

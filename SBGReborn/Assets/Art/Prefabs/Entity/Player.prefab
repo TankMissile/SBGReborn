@@ -196,7 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxhp: 20
   hp: 0
-  maxSpeed: 10
+  maxSpeed: 7
   impactDamage: 0
   rb: {fileID: 0}
   groundAccel: 1
