@@ -196,13 +196,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxhp: 20
   hp: 0
-  maxSpeed: 7
+  maxSpeed: 10
   impactDamage: 0
   rb: {fileID: 0}
   groundAccel: 1
   groundDecel: 1
   airAccel: 1
-  airDecel: 0
+  airDecel: 1
   jumpSpeed: 13
   superJumpSpeed: 20
   airdropSpeed: 50
