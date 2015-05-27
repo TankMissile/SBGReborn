@@ -14,6 +14,10 @@ public class CameraManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(Input.GetKeyDown(KeyCode.Escape)){
+			Application.Quit();
+		}
+		
 		if(Input.GetButtonDown("CameraSwitch")){
 			switch(cState){
 			case CameraState.PERSPECTIVE:
