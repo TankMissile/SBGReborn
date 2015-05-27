@@ -14,6 +14,7 @@ public class EnemyEntity : Entity {
 	new void OnCollisionEnter2D(Collision2D coll){
 		base.OnCollisionEnter2D(coll);
 		if(coll.gameObject.tag.Equals ("Player")){
+			coll.gameObject.SendMessage("checkHitDirection", this.transform.position);
 			coll.gameObject.SendMessage("takeDamage", this.impactDamage);
 		}
 	}

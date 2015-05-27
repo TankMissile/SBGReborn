@@ -24,11 +24,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480014}
-  - 33: {fileID: 3379964}
-  - 23: {fileID: 2348938}
   - 114: {fileID: 11404046}
   - 50: {fileID: 5020068}
   - 60: {fileID: 6077348}
+  - 23: {fileID: 2316046}
+  - 33: {fileID: 3378170}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 3.74000001, y: 3.31999993, z: 0}
   m_LocalScale: {x: .800000012, y: .800000012, z: 1}
   m_Children:
   - {fileID: 482708}
@@ -90,31 +90,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 480014}
   m_RootOrder: 0
---- !u!23 &2348938
+--- !u!23 &2316046
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159878}
   m_Enabled: 1
-  m_CastShadows: 2
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 366d71b836f3de54bb43489208efb7a8, type: 2}
+  - {fileID: 2100000, guid: 00e77af081581bf4491dbb762a59bbe7, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_PreserveUVs: 1
+  m_PreserveUVs: 0
   m_ImportantGI: 0
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3379964
+--- !u!33 &3378170
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -199,6 +199,7 @@ MonoBehaviour:
   maxSpeed: 10
   impactDamage: 0
   rb: {fileID: 0}
+  facingRight: 1
   groundAccel: 1
   groundDecel: 1
   airAccel: 1
@@ -209,7 +210,9 @@ MonoBehaviour:
   slideFallSpeed: 10
   canDoubleJump: 1
   jump: 0
-  facingRight: 1
+  tex:
+  - {fileID: 2100000, guid: 00e77af081581bf4491dbb762a59bbe7, type: 2}
+  - {fileID: 2100000, guid: 478cb7499bf553843a1c157214f84206, type: 2}
   grounded: 0
   groundCheck: {fileID: 482708}
   whatIsGround:

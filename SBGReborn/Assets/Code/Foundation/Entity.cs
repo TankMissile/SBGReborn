@@ -11,6 +11,8 @@ public class Entity : MonoBehaviour {
 	
 	public Rigidbody2D rb;
 	
+	public bool facingRight = true;
+	
 	public int[] getHP(){
 		return new int[] { hp, maxhp};
 	}
@@ -25,6 +27,14 @@ public class Entity : MonoBehaviour {
 	protected void Start(){
 		rb = GetComponent<Rigidbody2D>();
 		hp = maxhp;
+	}
+	
+	protected void flip(){
+		facingRight = !facingRight;
+		
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;
+		transform.localScale = scale;
 	}
 	
 	protected void OnCollisionEnter2D(Collision2D coll){
