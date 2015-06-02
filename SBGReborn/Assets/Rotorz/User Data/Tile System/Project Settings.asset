@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1748923336, guid: ca8d1606cd5c9cf4680b1ed766df048c, type: 3}
+  m_Name: Project Settings
+  m_EditorClassIdentifier: 
+  _expandTilesetCreatorSection: 0
+  _opaqueTilesetMaterialTemplate: {fileID: 0}
+  _transparentTilesetMaterialTemplate: {fileID: 0}
+  _expandBrushCategoriesSection: 1
+  _showCategoryIds: 0
+  _categories:
+  - _id: 2
+    _label: Terrain
+  - _id: 3
+    _label: Background
+  - _id: 4
+    _label: Foreground
+  _nextCategoryId: 4
+  _flagLabels:
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 

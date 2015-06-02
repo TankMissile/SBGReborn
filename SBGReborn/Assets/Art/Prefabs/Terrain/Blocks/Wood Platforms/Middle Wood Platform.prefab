@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 429932}
   - 33: {fileID: 3345182}
   - 23: {fileID: 2391250}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Middle Wood Platform 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474798}
-  m_Layer: 0
+  - 61: {fileID: 6136350}
+  - 251: {fileID: 25186304}
+  - 114: {fileID: 11433650}
+  m_Layer: 8
   m_Name: Middle Wood Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,6 +91,45 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104064}
   m_Mesh: {fileID: 4300000, guid: c673d2159bb715e4baafe9d4a8a0f5c6, type: 3}
+--- !u!61 &6136350
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134202}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 1
+  m_Offset: {x: 0, y: .400000006}
+  serializedVersion: 2
+  m_Size: {x: 1, y: .200000003}
+--- !u!114 &11433650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ad6a2559d27f34fb124e96c519ddb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  box: {fileID: 6136350}
+--- !u!251 &25186304
+PlatformEffector2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 134202}
+  m_Enabled: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_OneWay: 1
+  m_SideFriction: 0
+  m_SideBounce: 0
+  m_SideAngleVariance: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
