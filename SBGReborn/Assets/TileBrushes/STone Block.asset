@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 575807087, guid: 15e4284710b6fec45b46e734cb9a9a35, type: 3}
-  m_Name: STone Block
+  m_Name: Stone Block
   m_EditorClassIdentifier: 
   _internalFlags: 1
   disableImmediatePreview: 0

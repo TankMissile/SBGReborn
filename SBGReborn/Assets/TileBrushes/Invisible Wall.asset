@@ -19,7 +19,7 @@ MonoBehaviour:
   _static: 0
   _smooth: 0
   visibility: 1
-  group: 0
+  group: 99
   overrideLayer: 0
   layer: 0
   overrideTag: 0

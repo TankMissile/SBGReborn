@@ -22,6 +22,8 @@ public class Player : Entity
 	int knockbackTimer = 0;
 	MeshRenderer meshrend;
 	
+	int deathDuration = 20;
+	
 	public Material[] tex = new Material[2]; //0 is default, 1 is hurt
 	
 	//Handle checking for ground collision
@@ -37,7 +39,7 @@ public class Player : Entity
 	public LayerMask whatIsWall;
 	
 	//Determine how to handle movement
-	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK };
+	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD };
 	public MoveState mstate = MoveState.GROUND;
 
 	// Use this for initialization
@@ -70,7 +72,7 @@ public class Player : Entity
 		
 		
 		
-		if(mstate != MoveState.KNOCKBACK){
+		if(mstate != MoveState.KNOCKBACK && mstate != MoveState.DEAD){
 			if (grounded) { //if on ground, enter grounded state
 				mstate = MoveState.GROUND;
 				canDoubleJump = true;
@@ -164,13 +166,23 @@ public class Player : Entity
 			}
 			break;
 		case MoveState.KNOCKBACK:
-			knockbackTimer -= 1;
+			knockbackTimer--;
 			if(knockbackTimer <=0){
 				if(tex[0] !=null && meshrend != null) meshrend.material = tex[0];
 				mstate = MoveState.AIRBORNE;
 			}
 			break;
+		case MoveState.DEAD:
+			knockbackTimer--;
+			if(knockbackTimer <=0){
+				transform.position = GameManager.getSpawnPoint();
+				if(tex[0] !=null && meshrend != null) meshrend.material = tex[0];
+				mstate = MoveState.AIRBORNE;
+				hp = maxhp;
+			}
+			break;
 		}
+		
 	}
 	
 	void checkHitDirection(Vector3 enemyPos){
@@ -179,6 +191,7 @@ public class Player : Entity
 	}
 	
 	new void takeDamage(int dmg){
+		if(mstate == MoveState.DEAD) return;
 		base.takeDamage(dmg);
 		
 		if(facingRight){
@@ -193,6 +206,11 @@ public class Player : Entity
 		}
 		knockbackTimer = knockbackDuration;
 		mstate = MoveState.KNOCKBACK;
+		
+		if(hp <=0){
+			knockbackTimer = deathDuration;
+			mstate = MoveState.DEAD;
+		}
 	}
 	
 	void getHorizontalVelocity (float accel, float decel)
