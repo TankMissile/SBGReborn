@@ -26,6 +26,8 @@ public class Player : Entity
 	
 	public Material[] tex = new Material[2]; //0 is default, 1 is hurt
 	
+	private bool softAttack = false, hardAttack = false;
+	
 	//Handle checking for ground collision
 	public bool grounded = false;
 	public Transform groundCheck;
@@ -39,7 +41,7 @@ public class Player : Entity
 	public LayerMask whatIsWall;
 	
 	//Determine how to handle movement
-	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD };
+	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD, SOFTATTACK, HARDATTACK };
 	public MoveState mstate = MoveState.GROUND;
 
 	// Use this for initialization
@@ -61,6 +63,13 @@ public class Player : Entity
         
 		if (Input.GetButtonDown("Jump"))
 			jump = true;
+			
+		if(Input.GetButtonDown("Fire1")){
+			softAttack = true;
+		}
+		else if(Input.GetButtonDown("Fire2")){
+			hardAttack = true;
+		}
 	}
 	
 	//Do physics here
@@ -71,8 +80,15 @@ public class Player : Entity
 		walled = Physics2D.OverlapArea (transform.position + wallBoxCorners, transform.position - wallBoxCorners, whatIsWall);
 		
 		
-		
-		if(mstate != MoveState.KNOCKBACK && mstate != MoveState.DEAD){
+		if(softAttack){
+			hardAttack = softAttack = false;
+			mstate = MoveState.SOFTATTACK;
+		}
+		else if(hardAttack){
+			hardAttack = softAttack = false;
+			mstate = MoveState.HARDATTACK;
+		}
+		else if(mstate != MoveState.KNOCKBACK && mstate != MoveState.DEAD){
 			if (grounded) { //if on ground, enter grounded state
 				mstate = MoveState.GROUND;
 				canDoubleJump = true;
