@@ -39,9 +39,10 @@ public class Player : Entity
 	public Transform wallCheck;
 	public Vector3 wallBoxCorners = new Vector3 (.05f, .4f, 0);
 	public LayerMask whatIsWall;
+	public int lastWall = 0;
 	
 	//Determine how to handle movement
-	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD, SOFTATTACK, HARDATTACK };
+	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD, SOFTATTACK, HARDATTACK, WALLJUMP };
 	public MoveState mstate = MoveState.GROUND;
 
 	// Use this for initialization
@@ -79,7 +80,6 @@ public class Player : Entity
 		grounded = Physics2D.OverlapArea (groundCheck.position + groundBoxCorners, groundCheck.position - groundBoxCorners, whatIsGround);
 		walled = Physics2D.OverlapArea (transform.position + wallBoxCorners, transform.position - wallBoxCorners, whatIsWall);
 		
-		
 		if(softAttack){
 			hardAttack = softAttack = false;
 			mstate = MoveState.SOFTATTACK;
@@ -88,9 +88,10 @@ public class Player : Entity
 			hardAttack = softAttack = false;
 			mstate = MoveState.HARDATTACK;
 		}
-		else if(mstate != MoveState.KNOCKBACK && mstate != MoveState.DEAD){
+		else if(mstate != MoveState.KNOCKBACK && mstate != MoveState.WALLJUMP && mstate != MoveState.DEAD){
 			if (grounded) { //if on ground, enter grounded state
 				mstate = MoveState.GROUND;
+				lastWall = 0;
 				canDoubleJump = true;
 			}
 			else if(crouching && !grounded && mstate == MoveState.GROUND){ //if ran off a ledge while crouching, slide down the wall
@@ -99,12 +100,14 @@ public class Player : Entity
 				mstate = MoveState.WALLCLIMB;
 			}
 			else if (walled && !grounded) { //if touching a wall and not on the ground, enter wallslide state
-				if(rb.velocity.y > 0 && mstate != MoveState.WALLCLIMB){
-					if(rb.velocity.y < jumpSpeed)
-						rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				if(facingRight && lastWall != 1 || !facingRight && lastWall != -1){
+					if(rb.velocity.y > 0 && mstate != MoveState.WALLCLIMB){
+						if(rb.velocity.y < jumpSpeed)
+							rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+					}
+					mstate = MoveState.WALLCLIMB;
+					canDoubleJump = false;
 				}
-				mstate = MoveState.WALLCLIMB;
-				canDoubleJump = false;
 			}
 			else if(mstate == MoveState.WALLCLIMB && !walled && rb.velocity.y > 0){ //If wallsliding and ran off the top of the wall, run on top of it
 				float modifier = Mathf.Abs (Input.GetAxis("Horizontal"));
@@ -123,6 +126,20 @@ public class Player : Entity
 			}
 			else if( !grounded && mstate != MoveState.AIRDROP){ //if airborne and not using air drop, enter airborne state
 				mstate = MoveState.AIRBORNE;
+			}
+		}
+		else if(mstate == MoveState.WALLJUMP){
+			if (grounded) { //if on ground, enter grounded state
+				mstate = MoveState.GROUND;
+				canDoubleJump = true;
+			}
+			else if (walled && !grounded) { //if touching a wall and not on the ground, enter wallslide state
+				if(rb.velocity.y > 0 && mstate != MoveState.WALLCLIMB){
+					if(rb.velocity.y < jumpSpeed)
+						rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+				}
+				mstate = MoveState.WALLCLIMB;
+				canDoubleJump = false;
 			}
 		}
     
@@ -159,20 +176,45 @@ public class Player : Entity
 				jump = false;
 			}
 			break;
-		case MoveState.WALLCLIMB:
-			if(jump){
-				flip ();
-				if(facingRight){
-					rb.velocity = new Vector2(maxSpeed, jumpSpeed);
-					mstate = MoveState.AIRBORNE;
-				}
-				else {
-					rb.velocity = new Vector3(-maxSpeed, jumpSpeed);
-					mstate = MoveState.AIRBORNE;
+		case MoveState.WALLJUMP:
+			if(Input.GetButton("Horizontal")){
+				getHorizontalVelocity (airAccel, airDecel);
+				mstate = MoveState.AIRBORNE;
+			}
+			
+			if (jump) {
+				if (crouching) {
+					mstate = MoveState.AIRDROP;
+					rb.velocity = new Vector2 (0, -airdropSpeed);
+					canDoubleJump = false;
+				} else if (canDoubleJump) {
+					if (Input.GetAxis ("Horizontal") == 0)
+						rb.velocity = new Vector2 (rb.velocity.x, jumpSpeed);
+					else
+						rb.velocity = new Vector2 (Input.GetAxis ("Horizontal") * maxSpeed, jumpSpeed);
+					canDoubleJump = false;
 				}
 				jump = false;
 			}
+			break;
+		case MoveState.WALLCLIMB:
 			
+			if(jump){
+				flip ();
+				if(facingRight){
+					lastWall = -1;
+					rb.velocity = new Vector2(maxSpeed, jumpSpeed);
+					mstate = MoveState.WALLJUMP;
+					walled = false;
+				}
+				else {
+					lastWall = 1;
+					rb.velocity = new Vector3(-maxSpeed, jumpSpeed);
+					mstate = MoveState.WALLJUMP;
+					walled = false;
+				}
+				jump = false;
+			}
 			
 			if(!crouching && rb.velocity.y < -slideFallSpeed){
 				rb.velocity = new Vector2(rb.velocity.x, -slideFallSpeed);
@@ -180,6 +222,17 @@ public class Player : Entity
 			else if(crouching && rb.velocity.y < -slideFallSpeed/2){
 				rb.velocity = new Vector2(rb.velocity.x, -slideFallSpeed/2);
 			}
+			
+			bool wasRight = facingRight;
+			getHorizontalVelocity(airAccel, airDecel);
+			
+			//if no longer facing the wall, count as a wall jump
+			if(wasRight != facingRight){
+				if(facingRight) lastWall = -1;
+				else lastWall = 1;
+			}
+			
+			
 			break;
 		case MoveState.KNOCKBACK:
 			knockbackTimer--;
@@ -190,10 +243,12 @@ public class Player : Entity
 			break;
 		case MoveState.DEAD:
 			knockbackTimer--;
-			if(knockbackTimer <=0){
+			if(knockbackTimer <= -2){
+				mstate = MoveState.AIRBORNE;
+			}
+			else if(knockbackTimer <=0){
 				transform.position = GameManager.getSpawnPoint();
 				if(tex[0] !=null && meshrend != null) meshrend.material = tex[0];
-				mstate = MoveState.AIRBORNE;
 				hp = maxhp;
 			}
 			break;

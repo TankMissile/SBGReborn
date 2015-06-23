@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 159878}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.74000001, y: 3.31999993, z: 0}
+  m_LocalPosition: {x: 9.33397579, y: -68.3469925, z: 0}
   m_LocalScale: {x: .800000012, y: .800000012, z: 1}
   m_Children:
   - {fileID: 482708}
@@ -123,6 +123,7 @@ MeshFilter:
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!50 &5020068
 Rigidbody2D:
+  serializedVersion: 2
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -131,11 +132,11 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 1
-  m_FixedAngle: 1
   m_IsKinematic: 0
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!60 &6077348
 PolygonCollider2D:
   m_ObjectHideFlags: 1
@@ -207,7 +208,7 @@ MonoBehaviour:
   jumpSpeed: 13
   superJumpSpeed: 20
   airdropSpeed: 50
-  slideFallSpeed: 10
+  slideFallSpeed: 7
   canDoubleJump: 1
   jump: 0
   tex:
