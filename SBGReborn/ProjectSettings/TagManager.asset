@@ -9,6 +9,7 @@ TagManager:
   - Near FG
   - Enemy
   - InvisibleWall
+  - FriendlyAttack
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - 
   - TerrainColliders
   - InvisibleWalls
-  - 
-  - 
+  - Player
+  - MobileEnemy
   - 
   - 
   - 

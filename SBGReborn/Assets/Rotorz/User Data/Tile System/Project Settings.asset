@@ -23,7 +23,13 @@ MonoBehaviour:
     _label: Background
   - _id: 4
     _label: Foreground
-  _nextCategoryId: 4
+  - _id: 5
+    _label: Deco
+  - _id: 6
+    _label: Lighting
+  - _id: 7
+    _label: Enemies
+  _nextCategoryId: 7
   _flagLabels:
   - 
   - 

@@ -44,6 +44,11 @@ public class Player : Entity
 	//Determine how to handle movement
 	public enum MoveState{ GROUND, WALLCLIMB, AIRBORNE, LEDGEHANG, AIRDROP, KNOCKBACK, DEAD, SOFTATTACK, HARDATTACK, WALLJUMP };
 	public MoveState mstate = MoveState.GROUND;
+	
+	//Attacks
+	public int chargeDur = 10; //duration of dash attack (in FixedUpdate calls)
+	int chargeRem; //remaining time on dash attack
+	public int chargeSpeed = 10;
 
 	// Use this for initialization
 	new void Start ()
@@ -67,6 +72,7 @@ public class Player : Entity
 			
 		if(Input.GetButtonDown("Fire1")){
 			softAttack = true;
+			chargeRem = chargeDur;
 		}
 		else if(Input.GetButtonDown("Fire2")){
 			hardAttack = true;
@@ -80,15 +86,15 @@ public class Player : Entity
 		grounded = Physics2D.OverlapArea (groundCheck.position + groundBoxCorners, groundCheck.position - groundBoxCorners, whatIsGround);
 		walled = Physics2D.OverlapArea (transform.position + wallBoxCorners, transform.position - wallBoxCorners, whatIsWall);
 		
-		if(softAttack){
+		if(softAttack && mstate != MoveState.KNOCKBACK){
 			hardAttack = softAttack = false;
 			mstate = MoveState.SOFTATTACK;
 		}
-		else if(hardAttack){
+		else if(hardAttack && mstate != MoveState.KNOCKBACK){
 			hardAttack = softAttack = false;
 			mstate = MoveState.HARDATTACK;
 		}
-		else if(mstate != MoveState.KNOCKBACK && mstate != MoveState.WALLJUMP && mstate != MoveState.DEAD){
+		else if(mstate != MoveState.KNOCKBACK && mstate != MoveState.WALLJUMP && mstate != MoveState.DEAD && mstate != MoveState.SOFTATTACK){
 			if (grounded) { //if on ground, enter grounded state
 				mstate = MoveState.GROUND;
 				lastWall = 0;
@@ -252,8 +258,34 @@ public class Player : Entity
 				hp = maxhp;
 			}
 			break;
+		case MoveState.SOFTATTACK:
+			chargeRem--;
+			if(chargeRem >0){
+				gameObject.tag = "FriendlyAttack";
+				if(facingRight){
+					rb.velocity = chargeSpeed * Vector2.right;
+				}
+				else {
+					rb.velocity = -chargeSpeed * Vector2.right;
+				}
+			}
+			else{
+				gameObject.tag = "Player";
+				mstate = MoveState.AIRBORNE;
+			}
+			break;
+		case MoveState.HARDATTACK:
+		
+			break;
 		}
 		
+	}
+	
+	void OnTriggerEnter2D (Collider2D coll){
+		if(!tag.Equals("FriendlyAttack")) return;
+		
+		coll.gameObject.SendMessage("checkHitDirection", rb.position);
+		coll.gameObject.SendMessage("takeDamage", impactDamage);
 	}
 	
 	void checkHitDirection(Vector3 enemyPos){
