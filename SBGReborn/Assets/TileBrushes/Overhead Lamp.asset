@@ -41,7 +41,7 @@ MonoBehaviour:
     _rotation: 0
     _variations:
     - {fileID: 123484, guid: 41e2809af90f95b4d93fa8e2929d0444, type: 2}
-    _variationWeights: 32000000
+    _variationWeights: 36000000
   _materialMappingFrom: []
   _materialMappingTo: []
   _coalesce: 1

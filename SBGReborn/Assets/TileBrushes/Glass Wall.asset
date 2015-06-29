@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 575807087, guid: 15e4284710b6fec45b46e734cb9a9a35, type: 3}
+  m_Name: Glass Wall
+  m_EditorClassIdentifier: 
+  _internalFlags: 1
+  disableImmediatePreview: 0
+  _previewAssetId: z_a3f0a2c9-01bf-44b4-8747-620ec838cee1
+  customPreviewImage: {fileID: 0}
+  customPreviewDesignTime: 1
+  _static: 0
+  _smooth: 0
+  visibility: 1
+  group: 0
+  overrideLayer: 0
+  layer: 0
+  overrideTag: 0
+  tag: Untagged
+  _categoryId: 3
+  forceLegacySideways: 0
+  overrideTransforms: 0
+  scaleMode: 0
+  applyPrefabTransform: 0
+  transformScale: {x: 1, y: 1, z: 1}
+  _userFlags: 0
+  _userFlagLabels: 
+  _defaultOrientationMask: 0
+  _fallbackMode: 0
+  forceOverrideFlags: 0
+  _orientations:
+  - mask: 0
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 158568, guid: 790217ffe1cd39f46b1fa61b67e736e3, type: 2}
+    _variationWeights: 32000000
+  - mask: 64
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 123374, guid: aec7a2c2c600285458f5fafbdbfad383, type: 2}
+    _variationWeights: 32000000
+  - mask: 16
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 169402, guid: e452bfff24d195d45b3d8693aaa32352, type: 2}
+    _variationWeights: 32000000
+  - mask: 8
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 196250, guid: dbbdbc732b7206643a1057eee6ba83d3, type: 2}
+    _variationWeights: 32000000
+  - mask: 2
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 184662, guid: 10c94592a34fdb7418bb2518fa4e7ff0, type: 2}
+    _variationWeights: 32000000
+  - mask: 66
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 157798, guid: 63e3fcce434ba584fab5e93104adb484, type: 2}
+    _variationWeights: 32000000
+  - mask: 24
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 176304, guid: 93a352f0cd38c8240b32560faeeceff2, type: 2}
+    _variationWeights: 32000000
+  - mask: 80
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 113276, guid: 2af69766702ef4641a0239f90e695c51, type: 2}
+    _variationWeights: 32000000
+  - mask: 72
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 136110, guid: c92b4374782f124479cd5a9534da5408, type: 2}
+    _variationWeights: 32000000
+  - mask: 18
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 187844, guid: 4ed127f3d4d995f499053278f5027505, type: 2}
+    _variationWeights: 32000000
+  - mask: 10
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 124574, guid: c837d98c7c5ab72488358a66aed3eef0, type: 2}
+    _variationWeights: 32000000
+  - mask: 88
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 157018, guid: dfee290f2bc09be48bf8067cd255c165, type: 2}
+    _variationWeights: 32000000
+  - mask: 82
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 139368, guid: 5d6e1a51e89cbf44da77d9dc8ceaeade, type: 2}
+    _variationWeights: 32000000
+  - mask: 74
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 110636, guid: 802dc7882cc4a5e4b80566992e9edeea, type: 2}
+    _variationWeights: 32000000
+  - mask: 26
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 151318, guid: 645b0227f55aa2448ae3b358ad5af42d, type: 2}
+    _variationWeights: 32000000
+  - mask: 90
+    _type: 0
+    _rotation: 0
+    _variations:
+    - {fileID: 138844, guid: ba76514301c54cd4685da5f72c19ed19, type: 2}
+    _variationWeights: 32000000
+  _materialMappingFrom: []
+  _materialMappingTo: []
+  _coalesce: 1
+  _coalesceWithRotated: 0
+  _coalesceWithBorder: 0
+  _coalesceBrushGroup: 0
+  _coalesceWithBrushGroups: 
