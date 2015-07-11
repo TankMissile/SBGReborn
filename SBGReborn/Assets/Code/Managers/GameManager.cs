@@ -6,7 +6,7 @@ public static class GameManager {
 	private static Vector3 respawnPoint;
 	private static Player player;
 	private static int collectiblesAttained;
-	private static readonly int totalCollectibles = 3;
+	private static int totalCollectibles = 5;
 	
 	public static Player getPlayer(){
 		return player;
@@ -27,5 +27,9 @@ public static class GameManager {
 	}
 	public static int getCollectiblesObtained(){
 		return collectiblesAttained;
+	}
+	
+	public static int getTotalCollectibles(){
+		return totalCollectibles;
 	}
 }
